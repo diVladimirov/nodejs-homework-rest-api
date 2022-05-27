@@ -4,6 +4,7 @@ const { User } = require("../../models");
 
 const signup = async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body);
   const user = await User.findOne({ email });
   if (user) {
     throw new Conflict("Email in use");
@@ -14,7 +15,10 @@ const signup = async (req, res) => {
     status: "success",
     code: 201,
     data: {
-      newUser,
+      user: {
+        email,
+        subscription: newUser.subscription,
+      },
     },
   });
 };

@@ -1,9 +1,9 @@
+require("dotenv").config();
 const { Unauthorized } = require("http-errors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { User } = require("../../models");
-// const { SECRET_KEY } = process.env;
-// console.log(SECRET_KEY);
+const { SECRET_KEY } = process.env;
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -15,7 +15,7 @@ const login = async (req, res) => {
   const payload = {
     id: user._id,
   };
-  const token = jwt.sign(payload, "JKkbgLKJBKJBv23gv", { expiresIn: "1h" });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
   await User.findByIdAndUpdate(user._id, { token });
   res.json({
     status: "success",

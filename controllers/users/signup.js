@@ -7,7 +7,6 @@ const { sendEmail } = require("../../helpers/");
 
 const signup = async (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body);
   const user = await User.findOne({ email });
   if (user) {
     throw new Conflict("Email in use");
@@ -24,7 +23,7 @@ const signup = async (req, res) => {
   const mail = {
     to: email,
     subject: "Confirmation email",
-    html: `<a target="_blank" href="https://localhost:3000/api/users/verify/${verificationToken}">Confirm email</a>`,
+    html: `<a target="_blank" href="http://localhost:3000/api/users/verify/${verificationToken}">Confirm email</a>`,
   };
   await sendEmail(mail);
   res.status(201).json({
